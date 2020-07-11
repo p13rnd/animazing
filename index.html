@@ -39,8 +39,11 @@
 			color: #3f5d9a;
 		}
 		p {
-			font-size: 3rem;
+			font-size:3rem;
 			display: inline-block;
+		}
+		p a {
+			color: #3f5d9a;
 		}
 	</style>
 </head>
@@ -49,15 +52,17 @@
 		<h1	class="animazingJS">Animazing</h1>
 	</section>
 	<section class="dark inverted">
-		<h1
+		<p
 			class="animazing"
 			data-full="0"
-			data-delay="300"
-			data-duration="1000"
-			data-iterations="-1"
+			data-delay="120"
+			data-duration="3000"
+			data-iterations="3"
 			data-direction="alternate"
-			data-animations="color: #f4fc05, transform: translate(100%) scale(3)"
-		>Animazing</h1>
+			data-clean="1"
+			data-retain="1"
+			data-animations="color: #f4fc05, fontSize: 4rem"
+		>Animazing Text with a <a target="_blank" href="https://github.com/p13rnd/animazing">Link</a>.</p>
 	</section>
 	<script defer src='dist/animazing.min.js'></script>
 	<script defer src='example.js'></script>

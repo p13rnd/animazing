@@ -77,6 +77,7 @@ const animazing = (function(){
                 Object.assign(node.style, node.animazing.animObj);
             }
 
+            // TODO: retain links
             let spans = node.querySelectorAll('span.an');
             spans.forEach((span) => {
                 node.append(span.innerText);
@@ -93,9 +94,13 @@ const animazing = (function(){
                     app.cleanUp(node);
                 }
             });
+
+            let anchor = node.querySelector('a');
+            if (null !== anchor) {
+                node.textContent = node.textContent.replace(anchor.innerText, '*');
+            }
             
             let letters = node.textContent.split('');
-
             // clear node
             app.makeEmpty(node);
 
@@ -109,6 +114,28 @@ const animazing = (function(){
 
             let anim;
             letters.forEach((letter, index) => {
+                // anchor found
+                if ('*' === letter) {
+                    let a = document.createElement('a');
+                    a.href = anchor.href;
+                    a.target = anchor.target;
+                    a.style.textDecoration = 'none';
+
+                    let anchorLetters = anchor.innerText.split('');
+                    anchorLetters.forEach((aLetter) => {
+                        let span = document.createElement('span');
+                        span.innerText = aLetter;
+                        span.classList.add('an');
+                        span.style.opacity = opacity;
+                        anim = span.animate(node.animazing.animObj, app.props(node));
+                        node.animazing.currentDelay = node.animazing.currentDelay + node.animazing.delay;
+                        a.append(span);
+                    });
+
+                    node.append(a);
+                    return;
+                }
+
                 let span = document.createElement('span');
                 span.innerText = letter;
                 span.classList.add('an');
