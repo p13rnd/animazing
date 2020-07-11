@@ -81,12 +81,12 @@ const animazing = (function(){
             Array.from(node.childNodes).forEach((child, index) => {
                 // retain links
                 if('A' === child.tagName) {
-                    const aSpans = child.querySelectorAll('span.ln');
+                    const aSpans = child.querySelectorAll('span');
                     aSpans.forEach((s) => {
                         child.append(s.innerText);
                         s.remove();
                     });
-                    
+
                     if (0 !== node.animazing.retain) {
                         Object.assign(child.style, node.animazing.animObj);
                     }
@@ -116,10 +116,11 @@ const animazing = (function(){
             }
             
             let letters = node.textContent.split('');
+
             // clear node
             APP.makeEmpty(node);
 
-            // is opacity set?
+            // is opacity set? lets flip it
             let opacity = 1;
             if (undefined !== node.animazing.animObj.opacity) {
                 if (1 == node.animazing.animObj.opacity) {
@@ -140,7 +141,6 @@ const animazing = (function(){
                     ANCHORLETTERS.forEach((aLetter) => {
                         const SPAN = document.createElement('span');
                         SPAN.innerText = aLetter;
-                        SPAN.classList.add('ln');
                         SPAN.style.opacity = opacity;
                         anim = SPAN.animate(node.animazing.animObj, APP.props(node));
                         node.animazing.currentDelay = node.animazing.currentDelay + node.animazing.delay;
@@ -153,7 +153,6 @@ const animazing = (function(){
 
                 const SPAN = document.createElement('span');
                 SPAN.innerText = letter;
-                SPAN.classList.add('an');
                 SPAN.style.opacity = opacity;
                 node.append(SPAN);
 
