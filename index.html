@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset='utf-8'>
+	<meta name='viewport' content='width=device-width,initial-scale=1'>
+	<title>Animazing</title>
+	<style>
+		body, html {
+			padding: 0;
+			margin: 0;
+			overflow-x: hidden;
+		}
+		section h1 {
+			font-size:9rem;
+			margin:auto;
+			display:flex;
+			justify-self:center;
+		}
+		section h2 {
+			padding: 0;
+			margin: 0;
+		}
+		section {
+			width: 100vw;
+			height:100vh;
+			background:#3f5d9a;
+			color:#3f5d9a;
+			display: flex;
+			justify-content:center;
+		}
+		section.dark {
+			background:#06183b;
+			color:#06183b;
+		}
+		section.inverted {
+			color: #06183b;
+		}
+		section.dark.inverted {
+			color: #3f5d9a;
+		}
+		p {
+			font-size: 3rem;
+			display: inline-block;
+		}
+	</style>
+</head>
+<body>
+	<section class="inverted">
+		<h1
+			class="animazing"
+			data-full="0"
+			data-delay="300"
+			data-duration="3000"
+			data-iterations="-1"
+			data-direction="alternate"
+			data-animations="color: #f4fc05, transform: translateY(50%) rotate(-180deg) scale(0.5)"
+		>Animazing</h1>
+	</section>
+	<section class="dark inverted">
+		<h1
+		class="animazing"
+			data-full="1"
+			data-delay="100"
+			data-duration="3000"
+			data-iterations="-1"
+			data-direction="alternate"
+			data-animations="transform: rotate(-180deg)"
+			>Animazing</h1>
+		</section>
+		<section class="inverted">
+			<h1
+			class="animazing"
+			data-full="0"
+			data-delay="100"
+			data-duration="3000"
+			data-iterations="-1"
+			data-direction="alternate"
+			data-animations="color: #f4fc05"
+			>Animazing</h1>
+		</section>
+		<section class="dark inverted">
+			<p
+			class="animazing"
+			data-full="0"
+			data-delay="100"
+			data-duration="100"
+			data-iterations="1"
+			data-clean="1"
+			data-retain="0"
+			data-animations="color: #f4fc05, fontSize: 6rem"
+			>Lorem ipsum dolor sit amet</p>
+		</section>
+	<script defer src='dist/bundle.js'></script>
+	<script defer src='example.js'></script>
+</body>
+</html>
