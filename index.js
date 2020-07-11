@@ -2,11 +2,11 @@
 
 const animazing = (function(){
     const app = {
-        animate: ((selector) => {
+        animate: ((selector, opts) => {
             let text = document.querySelectorAll(selector);
             text.forEach((node) => {
                 // load options
-                app.loadOpts(node);
+                app.loadOpts(node, opts);
 
                 // make it visible
                 app.makeVisible(node);
@@ -15,9 +15,35 @@ const animazing = (function(){
                 app.doAnim(node);
             });
         }),
-        loadOpts: ((node) => {
+        loadOpts: ((node, opts) => {
             node.animazing = {};
-            node.animazing.doAnim = 0 === parseInt(node.dataset.full) ? app.animParts : app.animFull;
+            if (app.isEmptyObj(opts)) {
+                app.loadDataAttr(node);
+            } else {
+                opts = app.initDefaults(opts);
+                Object.assign(node.animazing, opts);
+            }
+            node.animazing.currentDelay = 0;
+        }),
+        initDefaults: ((opts) => {
+            if (isNaN(parseInt(opts.fullAnimation))) {
+                opts.fullAnimation = app.animParts;
+            } else {
+                opts.fullAnimation = 0 === parseInt(opts.fullAnimation) ? app.animParts : app.animFull;
+            }
+            
+            opts.delay = parseInt(opts.delay) || 0;
+            opts.clean = parseInt(opts.clean) || 0;
+            opts.retain = parseInt(opts.retain) || 0;
+            opts.duration = parseInt(opts.duration) || 1000;
+            opts.iterationStart = parseFloat(opts.iterationStart) || 0.0;
+            opts.iterations = (-1 === parseInt(opts.iterations) ? Infinity : parseInt(opts.iterations)) || 1;
+            opts.direction = opts.direction || 'normal';
+            opts.animations = opts.animations || false;
+            return opts;
+        }),
+        loadDataAttr: ((node) => {
+            node.animazing.fullAnimation = 0 === parseInt(node.dataset.full) ? app.animParts : app.animFull;
             node.animazing.delay = parseInt(node.dataset.delay) || 0;
             node.animazing.clean = parseInt(node.dataset.clean) || 0;
             node.animazing.retain = parseInt(node.dataset.retain) || 0;
@@ -25,10 +51,7 @@ const animazing = (function(){
             node.animazing.iterationStart = parseFloat(node.dataset.iterationstart) || 0.0;
             node.animazing.iterations = node.dataset.iterations == -1 ? Infinity : parseInt(node.dataset.iterations) || 1;
             node.animazing.direction = node.dataset.direction || 'normal';
-            node.animazing.animationType = node.dataset.animation || 'fade';
-            node.animazing.fontSize = parseFloat(window.getComputedStyle(node, null).getPropertyValue('font-size')) || 24;
             node.animazing.animations = node.dataset.animations || false;
-            node.animazing.currentDelay = 0;
         }),
         makeEmpty: ((node) => {
             node.textContent = '';
@@ -124,13 +147,19 @@ const animazing = (function(){
             let animObj = {};
             
             if (false !== node.animazing.animations) {                
-                let compObj = app.str2Obj(node.animazing.animations);
+                let compObj;
+                if (false === node.animazing.animations instanceof Object) {
+                    compObj = app.str2Obj(node.animazing.animations);
+                } else {
+                    compObj = node.animazing.animations;
+                }
+
                 Object.assign(animObj, compObj);
             }
 
             if (! app.isEmptyObj(animObj)) {
                 node.animazing.animObj = animObj;
-                node.animazing.doAnim(node);
+                node.animazing.fullAnimation(node);
             }
         }),
     }
