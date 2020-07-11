@@ -8,7 +8,7 @@ But there's more, animazing can animate letter by letter, the full node, it reta
 
 Animazing takes any selector fed into it and breaks it into several span nodes letter by letter, afterwards it will run the animation code on each node with the provided delay between each of them. It will also apply any options passed to it. See options below.
 
-##**WIP** THIS IS A WORK IN PROGRESS AND THINGS MAY NOT WORK AS EXPECTED, ALSO MISSING SOME DOCS RIGHT NOW. THIS NOTE WILL BE REMOVED ONCE THE PACKAGE IS READY AND PUBLISHED TO NPM
+##**WIP THIS IS A WORK IN PROGRESS AND THINGS MAY NOT WORK AS EXPECTED, ALSO MISSING SOME DOCS RIGHT NOW. THIS NOTE WILL BE REMOVED ONCE THE PACKAGE IS READY AND PUBLISHED TO NPM**
 
 ## How to use?
 
