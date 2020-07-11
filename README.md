@@ -1,5 +1,7 @@
 # Animazing - Animate anything easily
 
+![animazing](https://github.com/p13rnd/animazing/blob/master/animazing.gif)
+
 This lib animates your text letter by letter using data attributes to control them or if desired you can use options {} instead as a second paramter to take control over the animations. It has zero runtime dependencies utilising [Web Animations](https://developer.mozilla.org/en-US/docs/Web/API/Element/animate) so make sure you understand the implications (no IE support and not planned*)
 
 But there's more, animazing can animate letter by letter, the full node, it retains anchor tags and much more.
