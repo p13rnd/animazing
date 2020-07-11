@@ -1,7 +1,7 @@
 (function(){
     const animate = function() {
-        animazing.animate('.animazing');
-        animazing.animate('.animazingJS', {
+        motio.animate('.motio');
+        motio.animate('.motioJS', {
             fullAnimation: 0,
             delay: 300,
             duration: 1000,

@@ -1,7 +1,7 @@
 {
-  "name": "animazing",
+  "name": "motio",
   "version": "1.0.0",
-  "description": "animated text by web api",
+  "description": "animations using web api",
   "main": "index.js",
   "dependencies": {},
   "devDependencies": {
@@ -17,13 +17,16 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/p13rnd/animazing.git"
+    "url": "git+https://github.com/p13rnd/motio.git"
   },
   "keywords": [],
   "author": "p13rnd <p13rnd@gmail.com>",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
-    "url": "https://github.com/p13rnd/animazing/issues"
+    "url": "https://github.com/p13rnd/motio/issues"
   },
-  "homepage": "https://github.com/p13rnd/animazing#readme"
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
+  },
+  "homepage": "https://github.com/p13rnd/motio#readme"
 }

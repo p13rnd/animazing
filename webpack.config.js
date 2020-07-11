@@ -6,9 +6,9 @@ module.exports = {
     entry: './index.js',
     output: {
         path: path.resolve(__dirname, 'dist'),
-        filename: 'animazing.min.js',
+        filename: 'motio.min.js',
         libraryTarget: 'umd',
-        library: 'animazing',
+        library: 'motio',
         globalObject: 'this'
     },
     plugins: [

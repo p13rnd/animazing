@@ -1,14 +1,14 @@
-# Animazing - Animate anything easily
+# motio - Animate anything easily
 
-![animazing](https://github.com/p13rnd/animazing/blob/master/animazing.gif)
+![motio](https://github.com/p13rnd/motio/blob/master/motio.gif)
 
 This lib animates your text letter by letter using data attributes to control them or if desired you can use options {} instead as a second paramter to take control over the animations. It has zero runtime dependencies utilising [Web Animations](https://developer.mozilla.org/en-US/docs/Web/API/Element/animate) so make sure you understand the implications (no IE support and not planned*)
 
-But there's more, animazing can animate letter by letter, the full node, it retains anchor tags and much more.
+But there's more, motio can animate letter by letter, the full node, it retains anchor tags and much more.
 
 ## How does it work?
 
-Animazing takes any selector fed into it and breaks it into several span nodes letter by letter, afterwards it will run the animation code on each node with the provided delay between each of them. It will also apply any options passed to it. See options below.
+motio takes any selector fed into it and breaks it into several span nodes letter by letter, afterwards it will run the animation code on each node with the provided delay between each of them. It will also apply any options passed to it. See options below.
 
 **WIP THIS IS A WORK IN PROGRESS AND THINGS MAY NOT WORK AS EXPECTED, ALSO MISSING SOME DOCS RIGHT NOW. THIS NOTE WILL BE REMOVED ONCE THE PACKAGE IS READY AND PUBLISHED TO NPM**
 

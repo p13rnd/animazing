@@ -1,6 +1,6 @@
 "use strict";
 
-const animazing = (function(){
+const motio = (function(){
     const APP = {
         animate: ((selector, opts) => {
             const NODE = document.querySelectorAll(selector);
@@ -16,14 +16,14 @@ const animazing = (function(){
             });
         }),
         loadOpts: ((node, opts) => {
-            node.animazing = {};
+            node.motio = {};
             if (APP.isEmptyObj(opts)) {
                 APP.loadDataAttr(node);
             } else {
                 opts = APP.initDefaults(opts);
-                Object.assign(node.animazing, opts);
+                Object.assign(node.motio, opts);
             }
-            node.animazing.currentDelay = 0;
+            node.motio.currentDelay = 0;
         }),
         initDefaults: ((opts) => {
             if (isNaN(parseInt(opts.fullAnimation))) {
@@ -43,15 +43,15 @@ const animazing = (function(){
             return opts;
         }),
         loadDataAttr: ((node) => {
-            node.animazing.fullAnimation = 0 === parseInt(node.dataset.full) ? APP.animParts : APP.animFull;
-            node.animazing.delay = parseInt(node.dataset.delay) || 0;
-            node.animazing.clean = parseInt(node.dataset.clean) || 0;
-            node.animazing.retain = parseInt(node.dataset.retain) || 0;
-            node.animazing.duration = parseInt(node.dataset.duration) || 0;
-            node.animazing.iterationStart = parseFloat(node.dataset.iterationstart) || 0.0;
-            node.animazing.iterations = -1 === parseInt(node.dataset.iterations) ? Infinity : parseInt(node.dataset.iterations) || 1;
-            node.animazing.direction = node.dataset.direction || 'normal';
-            node.animazing.animations = node.dataset.animations || false;
+            node.motio.fullAnimation = 0 === parseInt(node.dataset.full) ? APP.animParts : APP.animFull;
+            node.motio.delay = parseInt(node.dataset.delay) || 0;
+            node.motio.clean = parseInt(node.dataset.clean) || 0;
+            node.motio.retain = parseInt(node.dataset.retain) || 0;
+            node.motio.duration = parseInt(node.dataset.duration) || 0;
+            node.motio.iterationStart = parseFloat(node.dataset.iterationstart) || 0.0;
+            node.motio.iterations = -1 === parseInt(node.dataset.iterations) ? Infinity : parseInt(node.dataset.iterations) || 1;
+            node.motio.direction = node.dataset.direction || 'normal';
+            node.motio.animations = node.dataset.animations || false;
         }),
         makeEmpty: ((node) => {
             node.textContent = '';
@@ -61,20 +61,20 @@ const animazing = (function(){
         }),
         props: ((node) => {
             const PROPS = {
-                duration: node.animazing.duration,
+                duration: node.motio.duration,
                 fill: 'forwards',
-                delay: node.animazing.currentDelay,
-                iterationStart: node.animazing.iterationStart,
-                iterations: node.animazing.iterations,
-                direction: node.animazing.direction
+                delay: node.motio.currentDelay,
+                iterationStart: node.motio.iterationStart,
+                iterations: node.motio.iterations,
+                direction: node.motio.direction
             };
             return PROPS;
         }),
         cleanUp: ((node) => {
             // should properties be retained?
             // if so move them to parent
-            if (0 !== node.animazing.retain) {
-                Object.assign(node.style, node.animazing.animObj);
+            if (0 !== node.motio.retain) {
+                Object.assign(node.style, node.motio.animObj);
             }
 
             let text = '';
@@ -87,8 +87,8 @@ const animazing = (function(){
                         s.remove();
                     });
 
-                    if (0 !== node.animazing.retain) {
-                        Object.assign(child.style, node.animazing.animObj);
+                    if (0 !== node.motio.retain) {
+                        Object.assign(child.style, node.motio.animObj);
                     }
 
                     text += child.outerHTML;
@@ -100,8 +100,8 @@ const animazing = (function(){
             node.innerHTML = text;
         }),
         animFull: ((node) => {
-            node.animate(node.animazing.animObj, APP.props(node));
-            node.animazing.currentDelay = node.animazing.currentDelay + node.animazing.delay;
+            node.animate(node.motio.animObj, APP.props(node));
+            node.motio.currentDelay = node.motio.currentDelay + node.motio.delay;
         }),
         animParts: ((node) => {
             node.lastElementCb = ((current, last) => {
@@ -122,8 +122,8 @@ const animazing = (function(){
 
             // is opacity set? lets flip it
             let opacity = 1;
-            if (undefined !== node.animazing.animObj.opacity) {
-                if (1 == node.animazing.animObj.opacity) {
+            if (undefined !== node.motio.animObj.opacity) {
+                if (1 == node.motio.animObj.opacity) {
                     opacity = 0;
                 }
             }
@@ -142,8 +142,8 @@ const animazing = (function(){
                         const SPAN = document.createElement('span');
                         SPAN.innerText = aLetter;
                         SPAN.style.opacity = opacity;
-                        anim = SPAN.animate(node.animazing.animObj, APP.props(node));
-                        node.animazing.currentDelay = node.animazing.currentDelay + node.animazing.delay;
+                        anim = SPAN.animate(node.motio.animObj, APP.props(node));
+                        node.motio.currentDelay = node.motio.currentDelay + node.motio.delay;
                         a.append(SPAN);
                     });
 
@@ -157,14 +157,14 @@ const animazing = (function(){
                 node.append(SPAN);
 
                 // if last node finished
-                anim = SPAN.animate(node.animazing.animObj, APP.props(node));
-                if (1 === node.animazing.clean) {
+                anim = SPAN.animate(node.motio.animObj, APP.props(node));
+                if (1 === node.motio.clean) {
                     anim.onfinish = (() => {
                         node.lastElementCb(index, letters.length)
                     });
                 }
 
-                node.animazing.currentDelay = node.animazing.currentDelay + node.animazing.delay;
+                node.motio.currentDelay = node.motio.currentDelay + node.motio.delay;
             });
         }),
         isEmptyObj: ((obj) => {
@@ -187,17 +187,17 @@ const animazing = (function(){
         doAnim: ((node) => {
             let animObj = {};
             
-            if (false !== node.animazing.animations) {
-                if (false === node.animazing.animations instanceof Object) {
-                    animObj = APP.str2Obj(node.animazing.animations);
+            if (false !== node.motio.animations) {
+                if (false === node.motio.animations instanceof Object) {
+                    animObj = APP.str2Obj(node.motio.animations);
                 } else {
-                    animObj = node.animazing.animations;
+                    animObj = node.motio.animations;
                 }
             }
 
             if (! APP.isEmptyObj(animObj)) {
-                node.animazing.animObj = animObj;
-                node.animazing.fullAnimation(node);
+                node.motio.animObj = animObj;
+                node.motio.fullAnimation(node);
             }
         }),
     }
