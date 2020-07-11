@@ -1,35 +1,35 @@
 "use strict";
 
 const animazing = (function(){
-    const app = {
+    const APP = {
         animate: ((selector, opts) => {
-            let text = document.querySelectorAll(selector);
-            text.forEach((node) => {
+            const NODE = document.querySelectorAll(selector);
+            NODE.forEach((node) => {
                 // load options
-                app.loadOpts(node, opts);
+                APP.loadOpts(node, opts);
 
                 // make it visible
-                app.makeVisible(node);
+                APP.makeVisible(node);
 
                 // animate
-                app.doAnim(node);
+                APP.doAnim(node);
             });
         }),
         loadOpts: ((node, opts) => {
             node.animazing = {};
-            if (app.isEmptyObj(opts)) {
-                app.loadDataAttr(node);
+            if (APP.isEmptyObj(opts)) {
+                APP.loadDataAttr(node);
             } else {
-                opts = app.initDefaults(opts);
+                opts = APP.initDefaults(opts);
                 Object.assign(node.animazing, opts);
             }
             node.animazing.currentDelay = 0;
         }),
         initDefaults: ((opts) => {
             if (isNaN(parseInt(opts.fullAnimation))) {
-                opts.fullAnimation = app.animParts;
+                opts.fullAnimation = APP.animParts;
             } else {
-                opts.fullAnimation = 0 === parseInt(opts.fullAnimation) ? app.animParts : app.animFull;
+                opts.fullAnimation = 0 === parseInt(opts.fullAnimation) ? APP.animParts : APP.animFull;
             }
             
             opts.delay = parseInt(opts.delay) || 0;
@@ -43,13 +43,13 @@ const animazing = (function(){
             return opts;
         }),
         loadDataAttr: ((node) => {
-            node.animazing.fullAnimation = 0 === parseInt(node.dataset.full) ? app.animParts : app.animFull;
+            node.animazing.fullAnimation = 0 === parseInt(node.dataset.full) ? APP.animParts : APP.animFull;
             node.animazing.delay = parseInt(node.dataset.delay) || 0;
             node.animazing.clean = parseInt(node.dataset.clean) || 0;
             node.animazing.retain = parseInt(node.dataset.retain) || 0;
             node.animazing.duration = parseInt(node.dataset.duration) || 0;
             node.animazing.iterationStart = parseFloat(node.dataset.iterationstart) || 0.0;
-            node.animazing.iterations = node.dataset.iterations == -1 ? Infinity : parseInt(node.dataset.iterations) || 1;
+            node.animazing.iterations = -1 === parseInt(node.dataset.iterations) ? Infinity : parseInt(node.dataset.iterations) || 1;
             node.animazing.direction = node.dataset.direction || 'normal';
             node.animazing.animations = node.dataset.animations || false;
         }),
@@ -60,7 +60,7 @@ const animazing = (function(){
             node.style.visibility = 'visible';
         }),
         props: ((node) => {
-            let props = {
+            const PROPS = {
                 duration: node.animazing.duration,
                 fill: 'forwards',
                 delay: node.animazing.currentDelay,
@@ -68,7 +68,7 @@ const animazing = (function(){
                 iterations: node.animazing.iterations,
                 direction: node.animazing.direction
             };
-            return props;
+            return PROPS;
         }),
         cleanUp: ((node) => {
             // should properties be retained?
@@ -86,7 +86,11 @@ const animazing = (function(){
                         child.append(s.innerText);
                         s.remove();
                     });
-                    Object.assign(child.style, node.animazing.animObj);
+                    
+                    if (0 !== node.animazing.retain) {
+                        Object.assign(child.style, node.animazing.animObj);
+                    }
+
                     text += child.outerHTML;
                 } else {
                     text += child.innerText;
@@ -96,24 +100,24 @@ const animazing = (function(){
             node.innerHTML = text;
         }),
         animFull: ((node) => {
-            node.animate(node.animazing.animObj, app.props(node));
+            node.animate(node.animazing.animObj, APP.props(node));
             node.animazing.currentDelay = node.animazing.currentDelay + node.animazing.delay;
         }),
         animParts: ((node) => {
             node.lastElementCb = ((current, last) => {
                 if (current === last - 1) {
-                    app.cleanUp(node);
+                    APP.cleanUp(node);
                 }
             });
 
-            let anchor = node.querySelector('a');
-            if (null !== anchor) {
-                node.textContent = node.textContent.replace(anchor.innerText, '*');
+            const ANCHOR = node.querySelector('a');
+            if (null !== ANCHOR) {
+                node.textContent = node.textContent.replace(ANCHOR.innerText, '*');
             }
             
             let letters = node.textContent.split('');
             // clear node
-            app.makeEmpty(node);
+            APP.makeEmpty(node);
 
             // is opacity set?
             let opacity = 1;
@@ -128,33 +132,33 @@ const animazing = (function(){
                 // anchor found
                 if ('*' === letter) {
                     let a = document.createElement('a');
-                    a.href = anchor.href;
-                    a.target = anchor.target;
+                    a.href = ANCHOR.href;
+                    a.target = ANCHOR.target;
                     a.style.textDecoration = 'none';
 
-                    let anchorLetters = anchor.innerText.split('');
-                    anchorLetters.forEach((aLetter) => {
-                        let span = document.createElement('span');
-                        span.innerText = aLetter;
-                        span.classList.add('ln');
-                        span.style.opacity = opacity;
-                        anim = span.animate(node.animazing.animObj, app.props(node));
+                    const ANCHORLETTERS = ANCHOR.innerText.split('');
+                    ANCHORLETTERS.forEach((aLetter) => {
+                        const SPAN = document.createElement('span');
+                        SPAN.innerText = aLetter;
+                        SPAN.classList.add('ln');
+                        SPAN.style.opacity = opacity;
+                        anim = SPAN.animate(node.animazing.animObj, APP.props(node));
                         node.animazing.currentDelay = node.animazing.currentDelay + node.animazing.delay;
-                        a.append(span);
+                        a.append(SPAN);
                     });
 
                     node.append(a);
                     return;
                 }
 
-                let span = document.createElement('span');
-                span.innerText = letter;
-                span.classList.add('an');
-                span.style.opacity = opacity;
-                node.append(span);
+                const SPAN = document.createElement('span');
+                SPAN.innerText = letter;
+                SPAN.classList.add('an');
+                SPAN.style.opacity = opacity;
+                node.append(SPAN);
 
                 // if last node finished
-                anim = span.animate(node.animazing.animObj, app.props(node));
+                anim = SPAN.animate(node.animazing.animObj, APP.props(node));
                 if (1 === node.animazing.clean) {
                     anim.onfinish = (() => {
                         node.lastElementCb(index, letters.length)
@@ -184,23 +188,20 @@ const animazing = (function(){
         doAnim: ((node) => {
             let animObj = {};
             
-            if (false !== node.animazing.animations) {                
-                let compObj;
+            if (false !== node.animazing.animations) {
                 if (false === node.animazing.animations instanceof Object) {
-                    compObj = app.str2Obj(node.animazing.animations);
+                    animObj = APP.str2Obj(node.animazing.animations);
                 } else {
-                    compObj = node.animazing.animations;
+                    animObj = node.animazing.animations;
                 }
-
-                Object.assign(animObj, compObj);
             }
 
-            if (! app.isEmptyObj(animObj)) {
+            if (! APP.isEmptyObj(animObj)) {
                 node.animazing.animObj = animObj;
                 node.animazing.fullAnimation(node);
             }
         }),
     }
 
-    module.exports = app;
+    module.exports = APP;
 })();
