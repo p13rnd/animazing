@@ -1,6 +1,6 @@
 {
   "name": "@p13rnd/motio",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "animations using web api",
   "main": "index.js",
   "dependencies": {},
