@@ -18,7 +18,7 @@ using npm
 > npm i @p13rnd/motio  
 
 UMD
-> \<script defer src="https://unpkg.com/@p13rnd/motio@1.0.0/dist/motio.min.js"\>\</script\>
+> \<script defer src="https://unpkg.com/@p13rnd/motio@1.0.0/dist/motio.min.js"\></script>
 
 ## How to use?
 
