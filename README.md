@@ -62,9 +62,24 @@ motio.animate('.motioJS', {
 
 ## Documentation
 
-> TODO
+key | values | default | notes
+--- | --- | --- | ---
+full | 0 or 1 | 0 | wether to animate the full node or it's innerText letter by letter, for the js object config use the key fullAnimation
+fullAnimation | 0 or 1 | 0 | wether to animate the full node or it's innerText letter by letter, for the data attribute config use the key full
+delay | int | 0 | the delay between animations, if animating single nodes the delay will be set between each node (letter)
+duration | int | 1000 | the duration one animation lasts in milliseconds
+iterations | int | 1 | the number of iterations, -1 for inifinite running animations
+iterationStart | float | 0.0 | the start delay between 2 iterations
+direction | string | 'normal' | the direction per Web API, options are 'normal', 'reverse' and 'alternate-reverse'
+clean | 0 or 1 | 0 | only used when full is set to 0, part animations inject spans, if clean is set to 1 the parts get removed when the animation is completed (this does not work on infinite animations)
+retain | 0 or 1 | 0 | only used when full is set to 0 and clean to 1, this will retain styles set during the animation if possible but still clean up span nodes generated. This is possible by transferring styles to the parent dom node.
+animations | csv string | false | a comma separated value string for data attribute controlled animations or a js object (see examples above). ```html data-animations="color: #f4fc05, fontSize: 4rem"```
 
-## Notes on IE and old browsers
+some special options:
+
+Opacity is flipped, if you provide 0 it will animate to 1 and vice-versa.
+
+## Notes on IE and old browsers*
 
 Backwards compatibility is nice, but I think it's also the wrong way to go. If everything stays with "Support for IE-insert-version-clients-ask-for-here" we will also allow people to run around with Windows7 in 20 years time, among with the Security concerns for everyone else. We will also end up with tons of dependencies just to support a few people not willing to upgrade. 
 

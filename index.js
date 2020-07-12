@@ -47,7 +47,7 @@ const motio = (function(){
             node.motio.delay = parseInt(node.dataset.delay) || 0;
             node.motio.clean = parseInt(node.dataset.clean) || 0;
             node.motio.retain = parseInt(node.dataset.retain) || 0;
-            node.motio.duration = parseInt(node.dataset.duration) || 0;
+            node.motio.duration = parseInt(node.dataset.duration) || 1000;
             node.motio.iterationStart = parseFloat(node.dataset.iterationstart) || 0.0;
             node.motio.iterations = -1 === parseInt(node.dataset.iterations) ? Infinity : parseInt(node.dataset.iterations) || 1;
             node.motio.direction = node.dataset.direction || 'normal';
