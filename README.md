@@ -10,22 +10,23 @@ But there's more, motio can animate letter by letter, the full node, it retains 
 
 motio takes any selector fed into it and breaks it into several span nodes letter by letter, afterwards it will run the animation code on each node with the provided delay between each of them. It will also apply any options passed to it. See options below.
 
-**WIP THIS IS A WORK IN PROGRESS AND THINGS MAY NOT WORK AS EXPECTED, ALSO MISSING SOME DOCS RIGHT NOW. THIS NOTE WILL BE REMOVED ONCE THE PACKAGE IS READY AND PUBLISHED TO NPM**
-
 ## Installation
 
 using npm
 > npm i @p13rnd/motio  
 
 UMD
-> \<script defer src="https://unpkg.com/@p13rnd/motio@1.0.0/dist/motio.min.js"\></script>
+> \<script defer src="https://unpkg.com/@p13rnd/motio@1.0.0/dist/motio.min.js"></script>
 
 ## How to use?
 
 ```html
+<!-- js config object -->
 <section>
     <h1	class="motioJS">motio</h1>
 </section>
+
+<!-- data attributes -->
 <section>
     <p
         class="motio"
@@ -42,7 +43,10 @@ UMD
 ```
 
 ```js
+// use data-attributes for configuration
 motio.animate('.motio');
+
+// use js object for configuration
 motio.animate('.motioJS', {
     fullAnimation: 0,
     delay: 300,
