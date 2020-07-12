@@ -203,11 +203,12 @@
                         .map(s => s.trim());
                     })
                     .reduce((accumulator, currentValue) => {
-                    accumulator[currentValue[0]] = currentValue[1]
-                        .replace('[', '')
-                        .replace(']', '')
-                        .replace('randomColor', APP.randomColor())
-                        .split(', ');
+                        accumulator[currentValue[0]] = currentValue[1]
+                            .replace('[', '')
+                            .replace(']', '')
+                            .split(', ').map(val => {
+                                return val.replace('randomColor', APP.randomColor())
+                            });
                     return accumulator;
             }, {})
         }),
@@ -224,7 +225,7 @@
                     animObj = node.motio.animations;
                 }
             }
-            
+            // console.log(animObj)
             if (! APP.isEmptyObj(animObj)) {
                 node.motio.animObj = animObj;
                 node.motio.fullAnimation(node);
