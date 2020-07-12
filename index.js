@@ -1,15 +1,12 @@
 "use strict";
 
-const motio = (function(){
+(function(){
     const APP = {
         animate: ((selector, opts) => {
             const NODE = document.querySelectorAll(selector);
             NODE.forEach((node) => {
                 // load options
                 APP.loadOpts(node, opts);
-
-                // make it visible
-                APP.makeVisible(node);
 
                 // animate
                 APP.doAnim(node);
@@ -35,19 +32,19 @@ const motio = (function(){
             
             opts.delay = parseInt(opts.delay) || 0;
             opts.clean = parseInt(opts.clean) || 0;
-            opts.retain = parseInt(opts.retain) || 0;
+            opts.retain = parseInt(opts.retain) || 0; // TODO
             opts.duration = parseInt(opts.duration) || 1000;
             opts.iterationStart = parseFloat(opts.iterationStart) || 0.0;
             opts.iterations = (-1 === parseInt(opts.iterations) ? Infinity : parseInt(opts.iterations)) || 1;
             opts.direction = opts.direction || 'normal';
-            opts.animations = opts.animations || false;
+            opts.animations = opts.animations || false; // TODO ?
             return opts;
         }),
         loadDataAttr: ((node) => {
             node.motio.fullAnimation = 0 === parseInt(node.dataset.full) ? APP.animParts : APP.animFull;
             node.motio.delay = parseInt(node.dataset.delay) || 0;
             node.motio.clean = parseInt(node.dataset.clean) || 0;
-            node.motio.retain = parseInt(node.dataset.retain) || 0;
+            node.motio.retain = node.dataset.retain || false;
             node.motio.duration = parseInt(node.dataset.duration) || 1000;
             node.motio.iterationStart = parseFloat(node.dataset.iterationstart) || 0.0;
             node.motio.iterations = -1 === parseInt(node.dataset.iterations) ? Infinity : parseInt(node.dataset.iterations) || 1;
@@ -56,9 +53,6 @@ const motio = (function(){
         }),
         makeEmpty: ((node) => {
             node.textContent = '';
-        }),
-        makeVisible: ((node) => {
-            node.style.visibility = 'visible';
         }),
         props: ((node) => {
             const PROPS = {
@@ -74,8 +68,15 @@ const motio = (function(){
         cleanUp: ((node) => {
             // should properties be retained?
             // if so move them to parent
-            if (0 !== node.motio.retain) {
-                Object.assign(node.style, node.motio.animObj);
+            if (false !== node.motio.retain) {
+                // get values to retain
+                let retainerObj = {};
+                node.motio.retain.split(', ').forEach((retainProp) => {
+                    const MATCHES = retainProp.split(/\[(.*?)\]/);
+                    const RVALUE = node.motio.animObj[MATCHES[0]][MATCHES[1]];
+                    retainerObj[MATCHES[0]] = RVALUE;
+                });
+                Object.assign(node.style, retainerObj);
             }
 
             let text = '';
@@ -98,15 +99,15 @@ const motio = (function(){
                     child.remove();
                 }
             });
-            node.innerHTML = text;
+            node.innerText = text;
         }),
         animFull: ((node) => {
-            node.animate(node.motio.animObj, APP.props(node));
             node.motio.currentDelay = node.motio.currentDelay + node.motio.delay;
+            node.animate(node.motio.animObj, APP.props(node));
         }),
         animParts: ((node) => {
             node.lastElementCb = ((current, last) => {
-                if (current >= last - 2) {
+                if (current === last - 1) {
                     APP.cleanUp(node);
                 }
             });
@@ -195,16 +196,23 @@ const motio = (function(){
         }),
         str2Obj: ((str) => {
             return str
-            .split(',')
-            .map(keyVal => {
-                return keyVal
-                    .split(':')
-                    .map(s => s.trim())
-                })
-                .reduce((accumulator, currentValue) => {
-                accumulator[currentValue[0]] = currentValue[1]
-                    return accumulator
+                .split('|')
+                .map(keyVal => {
+                    return keyVal
+                        .split(':')
+                        .map(s => s.trim());
+                    })
+                    .reduce((accumulator, currentValue) => {
+                    accumulator[currentValue[0]] = currentValue[1]
+                        .replace('[', '')
+                        .replace(']', '')
+                        .replace('randomColor', APP.randomColor())
+                        .split(', ');
+                    return accumulator;
             }, {})
+        }),
+        randomColor: (() => {
+            return "#xxxxxx".replace(/x/g, y=>(Math.random()*16|0).toString(16));
         }),
         doAnim: ((node) => {
             let animObj = {};
