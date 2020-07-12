@@ -38,31 +38,44 @@
 		section.dark.inverted {
 			color: #3f5d9a;
 		}
-		p {
-			font-size:3rem;
-			display: inline-block;
+		section.last {
+			position: relative;
+			height: 15vh;
 		}
-		p a {
+		section.last div {
+			font-size: 2rem;
+			width: 100%;
+			text-align: center;
+			color: #3f5d9a;
+			position: absolute;
+		}
+		section.last div a {
 			color: #3f5d9a;
 		}
 	</style>
 </head>
 <body>
 	<section class="dark inverted">
-		<h1	class="motioJS">motio</h1>
+		<h1 
+		class="motio"
+		data-full="0"
+		data-delay="300"
+		data-duration="3000"
+		data-iterations="-1"
+		data-direction="alternate"
+		data-animations="color: #f4fc05, transform: rotate(5deg), border: 1px solid #f4fc05, padding: 15px 45px, borderRadius: 90%, background: #3f5d9a"
+		>Motio</h1>
 	</section>
-	<section class="dark inverted">
-		<p
-			class="motio"
-			data-full="0"
-			data-delay="120"
-			data-duration="1000"
-			data-iterations="1"
-			data-direction="alternate"
-			data-clean="1"
-			data-retain="1"
-			data-animations="color: #f4fc05, fontSize: 4rem"
-		>motio Text with a <a target="_blank" href="https://github.com/p13rnd/motio">Link</a>.</p>
+	<section class="dark last">
+		<div 
+		class="motio"
+		data-full="0"
+		data-delay="50"
+		data-duration="3000"
+		data-iterations="-1"
+		data-direction="alternate"
+		data-animations="color: #f4fc05, transform: translateY(30%)"
+		>Project free and Open Source. Code on <a target="_blank" href="https://github.com/p13rnd/motio">Github</a></div>
 	</section>
 	<script defer src='dist/motio.min.js'></script>
 	<script defer src='example.js'></script>

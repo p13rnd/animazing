@@ -23,6 +23,7 @@ const motio = (function(){
                 opts = APP.initDefaults(opts);
                 Object.assign(node.motio, opts);
             }
+            node.motio.fontSize = parseFloat(window.getComputedStyle(node, null).getPropertyValue('font-size')) || 24;
             node.motio.currentDelay = 0;
         }),
         initDefaults: ((opts) => {
@@ -78,7 +79,7 @@ const motio = (function(){
             }
 
             let text = '';
-            Array.from(node.childNodes).forEach((child, index) => {
+            Array.from(node.childNodes).forEach((child) => {
                 // retain links
                 if('A' === child.tagName) {
                     const aSpans = child.querySelectorAll('span');
@@ -93,7 +94,7 @@ const motio = (function(){
 
                     text += child.outerHTML;
                 } else {
-                    text += child.innerText;
+                    text += 0 === child.innerText.length ? ' ' : child.innerText;
                     child.remove();
                 }
             });
@@ -105,7 +106,7 @@ const motio = (function(){
         }),
         animParts: ((node) => {
             node.lastElementCb = ((current, last) => {
-                if (current === last - 1) {
+                if (current >= last - 2) {
                     APP.cleanUp(node);
                 }
             });
@@ -130,6 +131,8 @@ const motio = (function(){
 
             let anim;
             letters.forEach((letter, index) => {
+                let runAnim = true;
+
                 // anchor found
                 if ('*' === letter) {
                     let a = document.createElement('a');
@@ -141,7 +144,15 @@ const motio = (function(){
                     ANCHORLETTERS.forEach((aLetter) => {
                         const SPAN = document.createElement('span');
                         SPAN.innerText = aLetter;
+                        SPAN.style.display = 'inline-block';
                         SPAN.style.opacity = opacity;
+
+                        // empty space
+                        if (' ' === letter) {
+                            SPAN.style.width = `${node.motio.fontSize / 4}px`;
+                            runAnim = false;
+                        }
+
                         anim = SPAN.animate(node.motio.animObj, APP.props(node));
                         node.motio.currentDelay = node.motio.currentDelay + node.motio.delay;
                         a.append(SPAN);
@@ -153,14 +164,25 @@ const motio = (function(){
 
                 const SPAN = document.createElement('span');
                 SPAN.innerText = letter;
+                SPAN.style.display = 'inline-block';
                 SPAN.style.opacity = opacity;
+                
+                // empty space
+                if (' ' === letter) {
+                    SPAN.style.width = `${node.motio.fontSize / 4}px`;
+                    runAnim = false;
+                }
+
                 node.append(SPAN);
 
                 // if last node finished
-                anim = SPAN.animate(node.motio.animObj, APP.props(node));
+                if (true === runAnim) {
+                    anim = SPAN.animate(node.motio.animObj, APP.props(node));
+                }
+                
                 if (1 === node.motio.clean) {
                     anim.onfinish = (() => {
-                        node.lastElementCb(index, letters.length)
+                        node.lastElementCb(index, letters.length);
                     });
                 }
 
@@ -194,7 +216,7 @@ const motio = (function(){
                     animObj = node.motio.animations;
                 }
             }
-
+            
             if (! APP.isEmptyObj(animObj)) {
                 node.motio.animObj = animObj;
                 node.motio.fullAnimation(node);
