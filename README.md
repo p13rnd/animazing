@@ -12,9 +12,49 @@ motio takes any selector fed into it and breaks it into several span nodes lette
 
 **WIP THIS IS A WORK IN PROGRESS AND THINGS MAY NOT WORK AS EXPECTED, ALSO MISSING SOME DOCS RIGHT NOW. THIS NOTE WILL BE REMOVED ONCE THE PACKAGE IS READY AND PUBLISHED TO NPM**
 
+## Installation
+
+using npm
+> npm i @p13rnd/motio  
+
+UMD
+> \<script defer src="https://unpkg.com/@p13rnd/motio@1.0.0/dist/motio.min.js"\>\</script\>
+
 ## How to use?
 
-> TODO
+```html
+<section>
+    <h1	class="motioJS">motio</h1>
+</section>
+<section>
+    <p
+        class="motio"
+        data-full="0"
+        data-delay="120"
+        data-duration="1000"
+        data-iterations="1"
+        data-direction="alternate"
+        data-clean="1"
+        data-retain="1"
+        data-animations="color: #f4fc05, fontSize: 4rem"
+    >motio Text with a <a target="_blank" href="https://github.com/p13rnd/motio">Link</a>.</p>
+</section>
+```
+
+```js
+motio.animate('.motio');
+motio.animate('.motioJS', {
+    fullAnimation: 0,
+    delay: 300,
+    duration: 1000,
+    iterations: -1,
+    direction: 'alternate',
+    animations: {
+        color: '#f4fc05',
+        transform: 'translate(100%) scale(3)'
+    }
+});
+```
 
 ## Documentation
 

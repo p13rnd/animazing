@@ -1,5 +1,5 @@
 {
-  "name": "motio",
+  "name": "@p13rnd/motio",
   "version": "1.0.0",
   "description": "animations using web api",
   "main": "index.js",
@@ -24,9 +24,6 @@
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/p13rnd/motio/issues"
-  },
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com/"
   },
   "homepage": "https://github.com/p13rnd/motio#readme"
 }
