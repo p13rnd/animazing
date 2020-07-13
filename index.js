@@ -153,10 +153,11 @@
                             SPAN.style.width = `${node.motio.fontSize / 4}px`;
                             runAnim = false;
                         }
+                        
+                        a.append(SPAN);
 
                         anim = SPAN.animate(node.motio.animObj, APP.props(node));
                         node.motio.currentDelay = node.motio.currentDelay + node.motio.delay;
-                        a.append(SPAN);
                     });
 
                     node.append(a);
@@ -225,12 +226,28 @@
                     animObj = node.motio.animations;
                 }
             }
-            // console.log(animObj)
+            
             if (! APP.isEmptyObj(animObj)) {
+                animObj = APP.ensureExplicit(animObj, node);
                 node.motio.animObj = animObj;
                 node.motio.fullAnimation(node);
             }
         }),
+        ensureExplicit: ((animObj, node) => {
+            // ensure explicit animation until Partial keyframes are supported
+            for(let [key, value] of Object.entries(animObj)){
+                // only one item in array
+                if (1 === value.length) {
+                    // get computed style
+                    let prop = window.getComputedStyle(node, null).getPropertyValue(key);
+                    if (undefined != prop) {
+                        animObj[key].unshift(prop);
+                    }
+                }
+            }
+
+            return animObj;
+        })
     }
 
     module.exports = APP;
