@@ -29,7 +29,7 @@
 			justify-content:center;
 		}
 		section.dark {
-			background:#06183b;
+			background:#000;
 			color:#06183b;
 		}
 		section.inverted {
@@ -52,19 +52,25 @@
 		section.last div a {
 			color: #3f5d9a;
 		}
+		p {
+			color: #3f5d9a;
+			font-size: 3rem;
+		}
 	</style>
 </head>
 <body>
 	<section class="dark inverted">
-		<h1 
+		<h1
 		class="motio"
 		data-full="0"
 		data-delay="300"
-		data-duration="3000"
+		data-duration="5000"
 		data-iterations="-1"
 		data-direction="alternate"
-		data-animations="color: #f4fc05, transform: rotate(5deg), border: 1px solid #f4fc05, padding: 15px 45px, borderRadius: 90%, background: #3f5d9a"
-		>Motio</h1>
+		data-clean="1"
+		data-retain="color[0]"
+		data-animations="color: [#f4fc05, randomColor, randomColor, randomColor, randomColor, randomColor, randomColor] | transform: [translateX(10%), translateY(20%), rotate(360deg), scale(0.75)]"
+	>Motio</h1>
 	</section>
 	<section class="dark last">
 		<div 
@@ -74,7 +80,7 @@
 		data-duration="3000"
 		data-iterations="-1"
 		data-direction="alternate"
-		data-animations="color: #f4fc05, transform: translateY(30%)"
+		data-animations="color: [#f4fc05, randomColor, randomColor, randomColor, randomColor]"
 		>Project free and Open Source. Code on <a target="_blank" href="https://github.com/p13rnd/motio">Github</a></div>
 	</section>
 	<script defer src='dist/motio.min.js'></script>
