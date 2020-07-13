@@ -1,7 +1,5 @@
 "use strict";
 
-const app = require("../temp");
-
 (function(){
     const APP = {
         EVENT_MAP: {
@@ -15,16 +13,23 @@ const app = require("../temp");
              * use triggers currently 'hover' or 'click
              */
             const NODES_ARRAY = Array.from(NODES);
-            let trigger = false;
+            let isTriggered = false;
             NODES.forEach((node, index) => {
                 node.motio = {};
                 node.motio.running = false;
-                trigger = false;
-                const TRIGGER = node.dataset.trigger;
-                if (undefined !== TRIGGER) {
-                    trigger = true;
+                isTriggered = false;
+                let trigger = null;
+                // pull from attr or js object
+                if (undefined === opts) {
+                    trigger = node.dataset.trigger;
+                } else {
+                    trigger = opts.trigger;
+                }
+                
+                if (undefined !== trigger) {
+                    isTriggered = true;
                     NODES_ARRAY.splice(index, 1);
-                    node.addEventListener(APP.EVENT_MAP[TRIGGER], () => {
+                    node.addEventListener(APP.EVENT_MAP[trigger], () => {
                         if (false === node.motio.running) {
                             node.motio.running = true;
     
@@ -37,7 +42,7 @@ const app = require("../temp");
                 }
             });
 
-            if (false === trigger) {
+            if (false === isTriggered) {
                 NODES_ARRAY.forEach((node, index) => {
                     // load options
                     APP.loadOpts(NODES_ARRAY[index], opts);

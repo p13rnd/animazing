@@ -6,6 +6,7 @@
             delay: 300,
             duration: 1000,
             iterations: -1,
+            trigger: 'click',
             direction: 'alternate',
             animations: {
                 color: '#f4fc05',
