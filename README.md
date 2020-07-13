@@ -37,6 +37,7 @@ UMD
         data-direction="alternate"
         data-clean="1"
         data-retain="1"
+        data-trigger="click"
         data-animations="color: [#f4fc05, randomColor, randomColor, randomColor, randomColor, randomColor, randomColor] | transform: [translateX(10%), translateY(20%), rotate(360deg), scale(0.75)]"
     >motio Text with a <a target="_blank" href="https://github.com/p13rnd/motio">Link</a>.</p>
 </section>
@@ -68,6 +69,7 @@ full | 0 or 1 | 0 | wether to animate the full node or it's innerText letter by 
 fullAnimation | 0 or 1 | 0 | wether to animate the full node or it's innerText letter by letter, for the data attribute config use the key full
 delay | int | 0 | the delay between animations, if animating single nodes the delay will be set between each node (letter)
 duration | int | 1000 | the duration one animation lasts in milliseconds
+trigger | string | false | the trigger for the animation 'click' or 'hover' are supported right now.
 iterations | int | 1 | the number of iterations, -1 for inifinite running animations
 iterationStart | float | 0.0 | the start delay between 2 iterations
 direction | string | 'normal' | the direction per Web API, options are 'normal', 'reverse' and 'alternate-reverse'

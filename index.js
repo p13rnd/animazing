@@ -1,19 +1,53 @@
 "use strict";
 
+const app = require("../temp");
+
 (function(){
     const APP = {
+        EVENT_MAP: {
+            'hover': 'mouseover',
+            'click': 'click'
+        },
         animate: ((selector, opts) => {
-            const NODE = document.querySelectorAll(selector);
-            NODE.forEach((node) => {
-                // load options
-                APP.loadOpts(node, opts);
+            const NODES = document.querySelectorAll(selector);
 
-                // animate
-                APP.doAnim(node);
+            /**
+             * use triggers currently 'hover' or 'click
+             */
+            const NODES_ARRAY = Array.from(NODES);
+            let trigger = false;
+            NODES.forEach((node, index) => {
+                node.motio = {};
+                node.motio.running = false;
+                trigger = false;
+                const TRIGGER = node.dataset.trigger;
+                if (undefined !== TRIGGER) {
+                    trigger = true;
+                    NODES_ARRAY.splice(index, 1);
+                    node.addEventListener(APP.EVENT_MAP[TRIGGER], () => {
+                        if (false === node.motio.running) {
+                            node.motio.running = true;
+    
+                            // load options
+                            APP.loadOpts(node, opts);
+    
+                            APP.doAnim(node);
+                        }
+                    });
+                }
             });
+
+            if (false === trigger) {
+                NODES_ARRAY.forEach((node, index) => {
+                    // load options
+                    APP.loadOpts(NODES_ARRAY[index], opts);
+                    
+                    // animate
+                    APP.doAnim(NODES_ARRAY[index]);
+                });
+            }
         }),
         loadOpts: ((node, opts) => {
-            node.motio = {};
             if (APP.isEmptyObj(opts)) {
                 APP.loadDataAttr(node);
             } else {
@@ -210,8 +244,8 @@
                             .split(', ').map(val => {
                                 return val.replace('randomColor', APP.randomColor())
                             });
-                    return accumulator;
-            }, {})
+                        return accumulator;
+                    }, {})
         }),
         randomColor: (() => {
             return "#xxxxxx".replace(/x/g, y=>(Math.random()*16|0).toString(16));
