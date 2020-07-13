@@ -37,7 +37,7 @@ UMD
         data-direction="alternate"
         data-clean="1"
         data-retain="1"
-        data-animations="color: #f4fc05, fontSize: 4rem"
+        data-animations="color: [#f4fc05, randomColor, randomColor, randomColor, randomColor, randomColor, randomColor] | transform: [translateX(10%), translateY(20%), rotate(360deg), scale(0.75)]"
     >motio Text with a <a target="_blank" href="https://github.com/p13rnd/motio">Link</a>.</p>
 </section>
 ```
