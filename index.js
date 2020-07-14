@@ -56,12 +56,8 @@
             node.motio.currentDelay = 0;
         }),
         initDefaults: ((opts) => {
-            if (isNaN(parseInt(opts.fullAnimation))) {
-                opts.fullAnimation = APP.animParts;
-            } else {
-                opts.fullAnimation = 0 === parseInt(opts.fullAnimation) ? APP.animParts : APP.animFull;
-            }
-            
+            opts.runSelected = undefined === opts.split ? APP.animFull : APP.animParts;
+            opts.split = opts.split;
             opts.delay = parseInt(opts.delay) || 0;
             opts.clean = parseInt(opts.clean) || 0;
             opts.retain = parseInt(opts.retain) || 0; // TODO
@@ -69,7 +65,8 @@
             opts.iterationStart = parseFloat(opts.iterationStart) || 0.0;
             opts.iterations = (-1 === parseInt(opts.iterations) ? Infinity : parseInt(opts.iterations)) || 1;
             opts.direction = opts.direction || 'normal';
-            opts.animations = opts.animations || false; // TODO ?
+            opts.easing = opts.easing || false;
+            opts.animations = opts.animations || false;
             return opts;
         }),
         loadDataAttr: ((node) => {
@@ -82,6 +79,7 @@
             node.motio.iterationStart = parseFloat(node.dataset.iterationstart) || 0.0;
             node.motio.iterations = -1 === parseInt(node.dataset.iterations) ? Infinity : parseInt(node.dataset.iterations) || 1;
             node.motio.direction = node.dataset.direction || 'normal';
+            node.motio.easing = node.dataset.easing || false;
             node.motio.animations = node.dataset.animations || false;
         }),
         props: ((node) => {
@@ -93,6 +91,11 @@
                 iterations: node.motio.iterations,
                 direction: node.motio.direction
             };
+
+            if (node.motio.easing) {
+                PROPS.easing = node.motio.easing;
+            }
+
             return PROPS;
         }),
         cleanUp: ((node) => {
