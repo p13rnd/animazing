@@ -13,11 +13,9 @@
              * use triggers currently 'hover' or 'click
              */
             const NODES_ARRAY = Array.from(NODES);
-            let isTriggered = false;
             NODES.forEach((node, index) => {
                 node.motio = {};
                 node.motio.running = false;
-                isTriggered = false;
                 let trigger = null;
                 // pull from attr or js object
                 if (undefined === opts) {
@@ -25,9 +23,8 @@
                 } else {
                     trigger = opts.trigger;
                 }
-                
+
                 if (undefined !== trigger) {
-                    isTriggered = true;
                     NODES_ARRAY.splice(index, 1);
                     node.addEventListener(APP.EVENT_MAP[trigger], () => {
                         if (false === node.motio.running) {
@@ -39,18 +36,14 @@
                             APP.doAnim(node);
                         }
                     });
-                }
-            });
-
-            if (false === isTriggered) {
-                NODES_ARRAY.forEach((node, index) => {
+                } else {
                     // load options
-                    APP.loadOpts(NODES_ARRAY[index], opts);
+                    APP.loadOpts(node, opts);
                     
                     // animate
-                    APP.doAnim(NODES_ARRAY[index]);
-                });
-            }
+                    APP.doAnim(node);
+                }
+            });
         }),
         loadOpts: ((node, opts) => {
             if (APP.isEmptyObj(opts)) {
@@ -80,7 +73,8 @@
             return opts;
         }),
         loadDataAttr: ((node) => {
-            node.motio.fullAnimation = 0 === parseInt(node.dataset.full) ? APP.animParts : APP.animFull;
+            node.motio.runSelected = undefined === node.dataset.split ? APP.animFull : APP.animParts;
+            node.motio.split = node.dataset.split;
             node.motio.delay = parseInt(node.dataset.delay) || 0;
             node.motio.clean = parseInt(node.dataset.clean) || 0;
             node.motio.retain = node.dataset.retain || false;
@@ -89,9 +83,6 @@
             node.motio.iterations = -1 === parseInt(node.dataset.iterations) ? Infinity : parseInt(node.dataset.iterations) || 1;
             node.motio.direction = node.dataset.direction || 'normal';
             node.motio.animations = node.dataset.animations || false;
-        }),
-        makeEmpty: ((node) => {
-            node.textContent = '';
         }),
         props: ((node) => {
             const PROPS = {
@@ -156,10 +147,16 @@
                 node.textContent = node.textContent.replace(ANCHOR.innerText, '*');
             }
             
-            let letters = node.textContent.split('');
+            let items;
+            if ('chars' === node.motio.split) {
+                items = node.textContent.split('');
 
-            // clear node
-            APP.makeEmpty(node);
+                // clear node
+                node.textContent = '';
+            } else {
+                // selector
+                items = node.querySelectorAll(node.motio.split);
+            }
 
             // is opacity set? lets flip it
             let opacity = 1;
@@ -170,11 +167,11 @@
             }
 
             let anim;
-            letters.forEach((letter, index) => {
+            items.forEach((item, index) => {
                 let runAnim = true;
 
                 // anchor found
-                if ('*' === letter) {
+                if ('*' === item) {
                     let a = document.createElement('a');
                     a.href = ANCHOR.href;
                     a.target = ANCHOR.target;
@@ -188,7 +185,7 @@
                         SPAN.style.opacity = opacity;
 
                         // empty space
-                        if (' ' === letter) {
+                        if (' ' === item) {
                             SPAN.style.width = `${node.motio.fontSize / 4}px`;
                             runAnim = false;
                         }
@@ -203,29 +200,40 @@
                     return;
                 }
 
-                const SPAN = document.createElement('span');
-                SPAN.innerText = letter;
-                SPAN.style.display = 'inline-block';
-                SPAN.style.opacity = opacity;
-                
-                // empty space
-                if (' ' === letter) {
-                    SPAN.style.width = `${node.motio.fontSize / 4}px`;
-                    runAnim = false;
+                if (item instanceof HTMLElement) {
+                    anim = item.animate(node.motio.animObj, APP.props(node));
+                    
+                    if (1 === node.motio.clean) {
+                        anim.onfinish = (() => {
+                            node.lastElementCb(index, items.length);
+                        });
+                    }
+                } else {
+                    const SPAN = document.createElement('span');
+                    SPAN.innerText = item;
+                    SPAN.style.display = 'inline-block';
+                    SPAN.style.opacity = opacity;
+                    
+                    // empty space
+                    if (' ' === item) {
+                        SPAN.style.width = `${node.motio.fontSize / 4}px`;
+                        runAnim = false;
+                    }
+    
+                    node.append(SPAN);
+    
+                    // if last node finished
+                    if (true === runAnim) {
+                        anim = SPAN.animate(node.motio.animObj, APP.props(node));
+                    }
+                    
+                    if (1 === node.motio.clean) {
+                        anim.onfinish = (() => {
+                            node.lastElementCb(index, items.length);
+                        });
+                    }
                 }
 
-                node.append(SPAN);
-
-                // if last node finished
-                if (true === runAnim) {
-                    anim = SPAN.animate(node.motio.animObj, APP.props(node));
-                }
-                
-                if (1 === node.motio.clean) {
-                    anim.onfinish = (() => {
-                        node.lastElementCb(index, letters.length);
-                    });
-                }
 
                 node.motio.currentDelay = node.motio.currentDelay + node.motio.delay;
             });
@@ -269,7 +277,7 @@
             if (! APP.isEmptyObj(animObj)) {
                 animObj = APP.ensureExplicit(animObj, node);
                 node.motio.animObj = animObj;
-                node.motio.fullAnimation(node);
+                node.motio.runSelected(node);
             }
         }),
         ensureExplicit: ((animObj, node) => {

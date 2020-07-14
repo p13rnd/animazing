@@ -56,13 +56,20 @@
 			color: #3f5d9a;
 			font-size: 3rem;
 		}
+		.test {
+			font-size: 3rem;
+			padding: 15px 40px;
+			border-width: 2px;
+			border-style: inset;
+			border-color: #000;
+		}
 	</style>
 </head>
 <body>
 	<section class="dark inverted">
 		<h1
 		class="motio"
-		data-full="0"
+		data-split="chars"
 		data-delay="300"
 		data-duration="5000"
 		data-iterations="-1"
@@ -74,12 +81,28 @@
 	>Motio</h1>
 	</section>
 	<section class="dark inverted">
-		<h2 class="motioJS">TEST</h2>
+		<div
+		class="motio test"
+		data-split=".split"
+		data-delay="300"
+		data-duration="5000"
+		data-iterations="-1"
+		data-trigger="hover"
+		data-direction="alternate"
+		data-animations="color: [#f4fc05, randomColor, randomColor, randomColor, randomColor, randomColor, randomColor]"
+	>
+		<ul>
+			<li class="split">Hello</li>
+			<li class="split">Split</li>
+			<li class="not-split">But this stays</li>
+			<li class="split">Divs</li>
+		</ul>
+	</div>
 	</section>
 	<section class="dark last">
 		<div 
 		class="motio"
-		data-full="0"
+		data-split="chars"
 		data-delay="50"
 		data-duration="3000"
 		data-iterations="-1"
