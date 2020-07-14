@@ -16,7 +16,7 @@ using npm
 > npm i @p13rnd/motio  
 
 UMD
-> \<script defer src="https://unpkg.com/@p13rnd/motio@1.0.4/dist/motio.min.js"></script>
+> \<script defer src="https://unpkg.com/@p13rnd/motio@1.0.5/dist/motio.min.js"></script>
 
 ## How to use?
 
@@ -30,7 +30,7 @@ UMD
 <section>
     <p
         class="motio"
-        data-full="0"
+        data-split="chars"
         data-delay="120"
         data-duration="1000"
         data-iterations="1"
@@ -54,6 +54,7 @@ motio.animate('.motioJS', {
     duration: 1000,
     iterations: -1,
     direction: 'alternate',
+    easing: 'ease-in-out',
     animations: {
         color: '#f4fc05',
         transform: 'translate(100%) scale(3)'
@@ -66,7 +67,7 @@ motio.animate('.motioJS', {
 key | values | default | notes
 --- | --- | --- | ---
 full | 0 or 1 | 0 | wether to animate the full node or it's innerText letter by letter, for the js object config use the key fullAnimation
-fullAnimation | 0 or 1 | 0 | wether to animate the full node or it's innerText letter by letter, for the data attribute config use the key full
+split | 'chars', '.selector' | null | wether to animate the full node or it's innerText letter by letter or by a given selector
 delay | int | 0 | the delay between animations, if animating single nodes the delay will be set between each node (letter)
 duration | int | 1000 | the duration one animation lasts in milliseconds
 trigger | string | false | the trigger for the animation 'click' or 'hover' are supported right now.
